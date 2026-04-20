@@ -3,193 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Together Forever ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600&display=swap" rel="stylesheet">
+    <title>SARA ❤️ AHMED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; }
-        body, html {
-            margin: 0; padding: 0;
-            height: 100%; width: 100%;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background-color: #000; /* خلفية سوداء مثل الفيديو */
+            color: #fff;
             font-family: 'Cairo', sans-serif;
-            overflow: hidden; /* لمنع السكرول مثل التطبيق */
-        }
-
-        /* الخلفية: صورة كاملة وعليها طبقة تعتيم */
-        .background-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* استبدل الرابط برابط صورتكم المفضلة */
-            background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=2070&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-            filter: brightness(0.6);
-            z-index: -1;
-        }
-
-        /* المحتوى الرئيسي */
-        .main-container {
-            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            padding: 60px 20px;
-            color: white;
-            text-align: center;
+            height: 100vh;
+            justify-content: center;
+            overflow: hidden;
         }
-
-        /* قسم الصور الدائرية (أنت وهي) */
-        .couple-images {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 3px solid white;
-            object-fit: cover;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        .heart-icon {
-            font-size: 30px;
-            color: #ff2d55;
-            animation: beat 1s infinite;
-        }
-
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
-
-        /* عداد الأيام الكبير */
-        .counter-section {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            padding: 30px;
-            border-radius: 30px;
-            width: 90%;
-            max-width: 350px;
-        }
-
-        .days-number {
-            font-size: 4rem;
-            font-weight: 600;
-            margin: 0;
-            line-height: 1;
-        }
-
-        .days-label {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* قسم التواريخ (الخطوبة والفرح) */
-        .events-footer {
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .event-item {
-            background: rgba(255, 255, 255, 0.15);
-            margin: 10px 0;
-            padding: 15px 25px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1rem;
-        }
-
-        .event-item b { color: #ffeb3b; }
 
         /* القلوب المتساقطة */
-        .heart-particle {
+        .heart {
             position: fixed;
             top: -20px;
+            color: #ff2d55;
+            font-size: 20px;
             pointer-events: none;
             animation: fall linear forwards;
+            z-index: 1;
         }
 
         @keyframes fall {
             to { transform: translateY(105vh) rotate(360deg); }
         }
+
+        /* الحاوية المركزية */
+        .content {
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+        }
+
+        .main-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); text-shadow: 0 0 0px #ff2d55; }
+            50% { transform: scale(1.1); text-shadow: 0 0 20px #ff2d55; }
+            100% { transform: scale(1); text-shadow: 0 0 0px #ff2d55; }
+        }
+
+        /* عداد الثواني الضخم الذي يتحرك بسرعة */
+        .total-seconds {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 10px 0;
+            font-family: monospace; /* لثبات الأرقام أثناء الحركة */
+        }
+
+        .label {
+            font-size: 1.2rem;
+            color: #888;
+            margin-bottom: 30px;
+        }
+
+        /* شبكة الوقت (أيام، ساعات، دقائق) */
+        .time-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+
+        .time-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            min-width: 80px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .time-item div:first-child {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ff2d55;
+        }
+
+        .time-item div:last-child {
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        /* قسم التواريخ في الأسفل */
+        .footer-dates {
+            position: absolute;
+            bottom: 40px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .date-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .date-row span { color: #888; }
+        .date-row b { color: #fff; letter-spacing: 1px; }
+
     </style>
 </head>
 <body>
 
-    <div class="background-overlay"></div>
+    <div class="content">
+        <h1>SARA ❤️ AHMED</h1>
+        
+        <div class="main-icon">❤️</div>
 
-    <div class="main-container">
-        <div class="top-section">
-            <h2 style="margin-bottom: 20px; letter-spacing: 2px;">SARA & AHMED</h2>
-            <div class="couple-images">
-                <img src="https://via.placeholder.com/150" class="avatar" alt="Ahmed">
-                <div class="heart-icon">❤️</div>
-                <img src="https://via.placeholder.com/150" class="avatar" alt="Sara">
+        <div class="total-seconds" id="total-sec">0</div>
+        <div class="label">ثانية من العشق</div>
+
+        <div class="time-grid">
+            <div class="time-item">
+                <div id="days">0</div>
+                <div>يوماً</div>
             </div>
-        </div>
-
-        <div class="counter-section">
-            <p style="margin-bottom: 5px;">لقد مر على حبنا</p>
-            <h1 class="days-number" id="days-count">0</h1>
-            <p class="days-label">يوماً</p>
-            <div id="clock-detail" style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;"></div>
-        </div>
-
-        <div class="events-footer">
-            <div class="event-item">
-                <span>💍 يوم خطوبتنا</span>
-                <b>2021 / 04 / 04</b>
+            <div class="time-item">
+                <div id="hours">0</div>
+                <div>ساعة</div>
             </div>
-            <div class="event-item">
-                <span>👰 يوم فرحنا</span>
-                <b>2026 / 07 / 20</b>
+            <div class="time-item">
+                <div id="mins">0</div>
+                <div>دقيقة</div>
             </div>
         </div>
     </div>
 
-    <script>
-        // تاريخ البداية (الخطوبة أو التعارف)
-        const startDate = new Date("April 4, 2021 00:00:00");
+    <div class="footer-dates">
+        <div class="date-row">
+            <span>💍 يوم خطوبتنا</span>
+            <b>2021 / 04 / 04</b>
+        </div>
+        <div class="date-row">
+            <span>👰 يوم فرحنا</span>
+            <b>2026 / 07 / 20</b>
+        </div>
+    </div>
 
-        function updateCounter() {
-            const now = new Date();
+    <script>
+        // التاريخ الأساسي (تاريخ الخطوبة)
+        const startDate = new Date("April 4, 2021 00:00:00").getTime();
+
+        function update() {
+            const now = new Date().getTime();
             const diff = now - startDate;
 
-            // حساب الأيام الكلية
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            
-            // حساب الساعات والدقائق للعداد الصغير
-            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-            const mins = Math.floor((diff / (1000 * 60)) % 60);
-            const secs = Math.floor((diff / 1000) % 60);
+            // حساب الثواني الكلية (الرقم الضخم)
+            const totalSecs = Math.floor(diff / 1000);
+            document.getElementById('total-sec').innerText = totalSecs.toLocaleString();
 
-            document.getElementById('days-count').innerText = days;
-            document.getElementById('clock-detail').innerText = `${hours} ساعة | ${mins} دقيقة | ${secs} ثانية`;
+            // حساب الأيام والساعات والدقائق
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('days').innerText = d;
+            document.getElementById('hours').innerText = h;
+            document.getElementById('mins').innerText = m;
         }
 
-        // تحديث العداد كل ثانية
-        setInterval(updateCounter, 1000);
-        updateCounter();
+        // تحديث كل ثانية واحدة
+        setInterval(update, 1000);
+        update();
 
-        // إضافة القلوب المتساقطة مثل الفيديو
-        function createHearts() {
+        // نظام القلوب المتساقطة
+        function createHeart() {
             const heart = document.createElement('div');
-            heart.className = 'heart-particle';
+            heart.classList.add('heart');
             heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+            heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
             heart.style.opacity = Math.random();
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
             document.body.appendChild(heart);
-
-            setTimeout(() => { heart.remove(); }, 6000);
+            setTimeout(() => heart.remove(), 5000);
         }
-        setInterval(createHearts, 500);
+        setInterval(createHeart, 300);
 
     </script>
 </body>
