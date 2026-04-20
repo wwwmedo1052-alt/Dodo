@@ -1,1 +1,259 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memory ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* إعدادات الألوان والخطوط */
+        :root {
+            --bg-color: #0b0b0b;
+            --card-color: #161616;
+            --accent: #ff2d55;
+            --text-secondary: #888;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* شاشة القفل */
+        #lock-screen {
+            position: fixed; inset: 0;
+            background: black;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            z-index: 1000; transition: 1s ease-in-out;
+        }
+
+        #lock-screen.hidden { transform: translateY(-100%); }
+
+        .unlock-btn {
+            background: var(--accent);
+            color: white; border: none;
+            padding: 12px 30px; border-radius: 50px;
+            font-size: 1.1rem; cursor: pointer;
+            margin-top: 20px; box-shadow: 0 0 20px rgba(255, 45, 85, 0.4);
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 20px;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .container.visible { opacity: 1; }
+
+        /* الأنيميشن الخاص بظهور العناصر (Fade In Up) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+            margin-bottom: 25px;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* صورة البروفايل */
+        .profile-section { text-align: center; margin-top: 30px; }
+        .profile-section img {
+            width: 130px; height: 130px;
+            border-radius: 50%; border: 3px solid var(--accent);
+            object-fit: cover;
+        }
+
+        /* العداد الزمني الكبير */
+        .timer-display {
+            background: var(--card-color);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid #222;
+        }
+
+        .timer-display h2 {
+            font-size: 2.2rem; margin: 10px 0;
+            color: var(--accent); letter-spacing: 1px;
+        }
+
+        /* الكروت الصغيرة للتواريخ */
+        .event-box {
+            background: var(--card-color);
+            padding: 15px 20px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-right: 4px solid var(--accent);
+        }
+
+        .event-box span { color: var(--text-secondary); font-size: 0.9rem; }
+        .event-box b { font-size: 1.1rem; }
+
+        /* معرض الصور (كما في الفيديو) */
+        .photo-card {
+            background: var(--card-color);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .photo-card img { width: 100%; display: block; }
+        .photo-card .caption { padding: 15px; font-size: 0.95rem; text-align: center; }
+
+        /* قلوب متساقطة */
+        .heart {
+            position: fixed; top: -10px;
+            color: var(--accent);
+            pointer-events: none;
+            z-index: 999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="lock-screen">
+        <h1 style="font-size: 3rem;">❤️</h1>
+        <p style="color: #666;">جاهزة تشوفي قصتنا؟</p>
+        <input type="password" id="pass" placeholder="Password" style="padding:10px; border-radius:10px; border:none; text-align:center;">
+        <button class="unlock-btn" onclick="init()">افتحي القلب 😍</button>
+    </div>
+
+    <div class="container" id="main">
+        
+        <div class="profile-section reveal">
+            <img src="https://i.pravatar.cc/300?img=1" alt="Together">
+            <h1>سارة & أحمد</h1>
+            <p style="color: var(--text-secondary);">منذ 04 أبريل 2021</p>
+        </div>
+
+        <div class="timer-display reveal">
+            <span>لقد مر على حبنا:</span>
+            <h2 id="timer">00 : 00 : 00 : 00</h2>
+            <div id="total-days" style="color: var(--text-secondary); font-size: 0.8rem;"></div>
+        </div>
+
+        <div class="event-box reveal">
+            <div>
+                <span>المناسبة الأولى</span><br>
+                <b>💍 يوم خطوبتنا</b>
+            </div>
+            <div style="text-align: left;">2021/04/04</div>
+        </div>
+
+        <div class="event-box reveal" style="border-right-color: #4a90e2;">
+            <div>
+                <span>المناسبة المنتظرة</span><br>
+                <b>👰 يوم فرحنا</b>
+            </div>
+            <div style="text-align: left;">2026/07/20</div>
+        </div>
+
+        <div class="photo-card reveal">
+            <img src="https://via.placeholder.com/400x500/161616/ffffff?text=Image+1" alt="Memory 1">
+            <div class="caption">أول صورة لينا مع بعض ❤️</div>
+        </div>
+
+        <div class="photo-card reveal">
+            <img src="https://via.placeholder.com/400x500/161616/ffffff?text=Image+2" alt="Memory 2">
+            <div class="caption">يوم ما ضحكتك نورت حياتي 😍</div>
+        </div>
+
+        <div class="photo-card reveal">
+            <img src="https://via.placeholder.com/400x500/161616/ffffff?text=Image+3" alt="Memory 3">
+            <div class="caption">مشواري معاكي هو أحلى مشوار</div>
+        </div>
+
+        <footer style="text-align: center; padding: 40px; color: #444;">
+            Made for My Queen ❤️
+        </footer>
+    </div>
+
+    <script>
+        // دالة البدء
+        function init() {
+            const pass = document.getElementById('pass').value;
+            if(pass === "love") {
+                document.getElementById('lock-screen').classList.add('hidden');
+                document.getElementById('main').classList.add('visible');
+                
+                // تفعيل عداد الوقت والقلوب
+                startTimer();
+                createHearts();
+                
+                // تفعيل تأثير الظهور التدريجي للعناصر
+                handleReveal();
+            } else {
+                alert("الباسورد هو love");
+            }
+        }
+
+        // عداد الوقت
+        function startTimer() {
+            const startDate = new Date("April 4, 2021 00:00:00").getTime();
+            
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = now - startDate;
+
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                document.getElementById('timer').innerText = 
+                    `${String(d).padStart(2,'0')} : ${String(h).padStart(2,'0')} : ${String(m).padStart(2,'0')} : ${String(s).padStart(2,'0')}`;
+                
+                document.getElementById('total-days').innerText = `إجمالي الأيام: ${d} يوم`;
+            }, 1000);
+        }
+
+        // القلوب المتساقطة
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                heart.style.fontSize = (Math.random() * 15 + 10) + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 400);
+        }
+
+        // وظيفة الـ Scroll Reveal (ظهور العناصر أثناء النزول)
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            reveals.forEach(r => observer.observe(r));
+        }
+    </script>
+</body>
+</html>
