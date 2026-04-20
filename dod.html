@@ -3,212 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Together ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;400;700&display=swap" rel="stylesheet">
+    <title>SARA ❤️ AHMED</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;600;800&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
+        :root {
+            --primary: #ff2d55;
+            --bg: #0b0b0b;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
         body, html {
-            height: 100%;
-            width: 100%;
+            margin: 0; padding: 0;
+            background-color: var(--bg);
+            color: white;
             font-family: 'Cairo', sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow: hidden;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* صورة الخلفية مثل الفيديو */
-        .main-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            /* استبدل الرابط بصورتكم الشخصية */
-            background: url('https://images.unsplash.com/photo-1516589174184-c68526674fd6?q=80&w=1000&auto=format&fit=crop') no-repeat center center;
-            background-size: cover;
-            filter: brightness(0.5); /* تعتيم الصورة لتبرز الأرقام */
-            z-index: -1;
+        /* 1. شاشة التحميل (Loading) */
+        #loader {
+            position: fixed; inset: 0; background: var(--bg);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 10000;
+        }
+        .heart-loader {
+            width: 50px; height: 50px; background: var(--primary);
+            transform: rotate(45deg); animation: beat 0.8s infinite;
+        }
+        .heart-loader::before, .heart-loader::after {
+            content: ''; width: 50px; height: 50px; background: var(--primary);
+            border-radius: 50%; position: absolute;
+        }
+        .heart-loader::before { left: -25px; }
+        .heart-loader::after { top: -25px; }
+        @keyframes beat { 0%, 100% { transform: scale(1) rotate(45deg); } 50% { transform: scale(1.2) rotate(45deg); } }
+
+        /* 2. شاشة كلمة السر (Password) */
+        #lock-screen {
+            position: fixed; inset: 0; background: linear-gradient(to bottom, #1a1a2e, #0b0b0b);
+            display: none; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; text-align: center;
+        }
+        .login-box {
+            background: var(--card-bg); padding: 40px; border-radius: 30px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+            width: 85%; max-width: 400px;
+        }
+        .login-box img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--primary); margin-bottom: 15px; }
+        input {
+            width: 100%; padding: 15px; border-radius: 15px; border: 1px solid var(--primary);
+            background: none; color: white; text-align: center; font-size: 1.2rem; margin: 20px 0;
+        }
+        .btn {
+            background: var(--primary); color: white; border: none; padding: 12px 30px;
+            border-radius: 50px; cursor: pointer; font-weight: bold; width: 100%;
         }
 
-        .container {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            align-items: center;
-            padding: 40px 20px;
-            z-index: 10;
-        }
+        /* 3. المحتوى الرئيسي */
+        #main-content { display: none; padding: 20px; text-align: center; }
 
-        /* الجزء العلوي (الأسماء) */
-        .header h1 {
-            font-weight: 200;
-            font-size: 1.8rem;
-            letter-spacing: 4px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
-        }
+        .hero-section { margin-top: 50px; }
+        .hero-name { font-size: 2.5rem; font-weight: 800; color: var(--primary); }
 
-        .heart-icon {
-            font-size: 50px;
-            color: #ff2d55;
-            margin: 10px 0;
-            animation: beat 1.2s infinite;
+        /* العداد الزمني (زي الفيديو) */
+        .timer-container {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 30px 0;
         }
-
-        @keyframes beat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.15); }
+        .timer-box {
+            background: var(--card-bg); padding: 20px; border-radius: 20px;
+            border: 1px solid rgba(255,45,85,0.2);
         }
+        .timer-box span { display: block; font-size: 1.8rem; font-weight: bold; color: var(--primary); }
 
-        /* العداد الرئيسي (الثواني اللي بتجري) */
-        .big-counter {
-            text-align: center;
+        /* معرض الصور (المنزلق) */
+        .gallery {
+            display: flex; flex-direction: column; gap: 20px; margin-top: 50px;
         }
-
-        #total-seconds {
-            font-size: 3.5rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 5px;
-            font-family: 'Courier New', Courier, monospace; /* لثبات حركة الأرقام */
+        .photo-card {
+            background: var(--card-bg); border-radius: 25px; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-
-        .sub-label {
-            font-size: 1.1rem;
-            font-weight: 200;
-            letter-spacing: 2px;
-            opacity: 0.9;
-        }
-
-        /* شبكة الوقت (أيام - ساعات - دقائق) */
-        .time-grid {
-            display: flex;
-            gap: 25px;
-        }
-
-        .time-box {
-            text-align: center;
-        }
-
-        .time-box span {
-            display: block;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
-
-        .time-box label {
-            font-size: 0.8rem;
-            opacity: 0.7;
-        }
-
-        /* التواريخ في الأسفل */
-        .footer-events {
-            width: 100%;
-            max-width: 350px;
-        }
-
-        .event-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-top: 0.5px solid rgba(255,255,255,0.2);
-            font-size: 0.95rem;
-        }
-
-        .event-row span { font-weight: 200; }
-        .event-row b { font-weight: 600; color: #ff2d55; }
+        .photo-card img { width: 100%; display: block; }
+        .photo-card .text { padding: 15px; font-style: italic; opacity: 0.8; }
 
         /* القلوب المتساقطة */
         .falling-heart {
-            position: fixed; top: -20px;
-            pointer-events: none;
-            animation: fall linear forwards;
-            z-index: 5;
+            position: fixed; top: -10%; color: var(--primary); pointer-events: none;
+            animation: fall linear forwards; z-index: 50;
         }
-        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
 
     </style>
 </head>
 <body>
 
-    <div class="main-bg"></div>
+    <div id="loader">
+        <div class="heart-loader"></div>
+        <h3 style="margin-top: 40px;">جاري التحميل...</h3>
+    </div>
 
-    <div class="container">
-        <div class="header">
-            <h1>SARA ❤️ AHMED</h1>
-        </div>
-
-        <div class="heart-icon">❤️</div>
-
-        <div class="big-counter">
-            <span id="total-seconds">0</span>
-            <div class="sub-label">ثانية من حبنا</div>
-        </div>
-
-        <div class="time-grid">
-            <div class="time-box">
-                <span id="days">0</span>
-                <label>أيام</label>
-            </div>
-            <div class="time-box">
-                <span id="hours">0</span>
-                <label>ساعة</label>
-            </div>
-            <div class="time-box">
-                <span id="mins">0</span>
-                <label>دقيقة</label>
-            </div>
-        </div>
-
-        <div class="footer-events">
-            <div class="event-row">
-                <span>💍 يوم خطوبتنا</span>
-                <b>2021/04/04</b>
-            </div>
-            <div class="event-row">
-                <span>👰 يوم فرحنا</span>
-                <b>2026/07/20</b>
-            </div>
+    <div id="lock-screen">
+        <div class="login-box">
+            <img src="https://via.placeholder.com/150" alt="صورة حب">
+            <h2>جاهزة؟ ❤️</h2>
+            <p>كل اللي هنا هيفضل بيني وبينك طول العمر</p>
+            <input type="password" id="pass" placeholder="l o v e">
+            <button class="btn" onclick="checkPass()">يلا بسرعة افتحي 😍</button>
+            <p id="error" style="color:red; margin-top:10px; font-size:0.8rem;"></p>
         </div>
     </div>
 
+    <div id="main-content">
+        <div class="hero-section">
+            <div class="hero-name">SARA ❤️</div>
+            <p>يوم ما عرفنا بعض كان يوم ولادتي</p>
+        </div>
+
+        <div style="background:var(--card-bg); padding:15px; border-radius:15px; margin:20px 0;">
+            💍 يوم خطوبتنا: <b>2021-04-04</b><br>
+            👰 يوم فرحنا: <b>2026-10-10</b>
+        </div>
+
+        <h3>بداية عمري معاكي بقالنا:</h3>
+        <div class="timer-container">
+            <div class="timer-box"><span id="days">0</span><label>يوم</label></div>
+            <div class="timer-box"><span id="hours">0</span><label>ساعة</label></div>
+            <div class="timer-box"><span id="mins">0</span><label>دقيقة</label></div>
+            <div class="timer-box"><span id="secs">0</span><label>ثانية</label></div>
+        </div>
+
+        <div class="gallery">
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/400x500" alt="صورة 1">
+                <div class="text">بحبك يا نور عيني ❤️</div>
+            </div>
+            <div class="photo-card">
+                <img src="https://via.placeholder.com/400x500" alt="صورة 2">
+                <div class="text">أجمل حاجة في حياتي هي إنتي 😍</div>
+            </div>
+        </div>
+
+        <footer style="padding: 50px; opacity: 0.5;">
+            Designed with love for My Queen ❤️
+        </footer>
+    </div>
+
     <script>
-        // التاريخ اللي بدأتوا فيه (غيره براحتك)
-        const startDate = new Date("April 4, 2021 00:00:00").getTime();
+        // 1. محاكاة التحميل
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('lock-screen').style.display = 'flex';
+        }, 2500);
 
-        function update() {
-            const now = new Date().getTime();
-            const diff = now - startDate;
-
-            // الثواني الكلية
-            const totalSecs = Math.floor(diff / 1000);
-            document.getElementById('total-seconds').innerText = totalSecs.toLocaleString();
-
-            // التفاصيل (أيام، ساعات، دقائق)
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-            document.getElementById('days').innerText = d;
-            document.getElementById('hours').innerText = h;
-            document.getElementById('mins').innerText = m;
+        // 2. التحقق من كلمة السر
+        function checkPass() {
+            const p = document.getElementById('pass').value;
+            if(p.toLowerCase() === "love") {
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                startCounter();
+                makeHearts();
+            } else {
+                document.getElementById('error').innerText = "كلمة السر غلط يا روحي! (جربي love)";
+            }
         }
 
-        // التحديث كل ثانية عشان الرقم يجري
-        setInterval(update, 1000);
-        update();
+        // 3. العداد الزمني (تاريخ الخطوبة)
+        function startCounter() {
+            const startDate = new Date("April 4, 2021 00:00:00").getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const diff = now - startDate;
 
-        // إضافة قلوب بتنزل زي الفيديو
-        setInterval(() => {
-            const h = document.createElement('div');
-            h.className = 'falling-heart';
-            h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.fontSize = (Math.random() * 15 + 10) + 'px';
-            h.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            h.style.opacity = Math.random();
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 400);
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }, 1000);
+        }
 
+        // 4. القلوب المتساقطة
+        function makeHearts() {
+            setInterval(() => {
+                const h = document.createElement('div');
+                h.className = 'falling-heart';
+                h.innerHTML = '❤️';
+                h.style.left = Math.random() * 100 + "vw";
+                h.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 5000);
+            }, 300);
+        }
     </script>
 </body>
 </html>
